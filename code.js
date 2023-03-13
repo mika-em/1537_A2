@@ -1,25 +1,25 @@
-$(document).ready(function () {
-    $.ajax({
-        url: "https://yts.mx/api/v2/list_movies.json?sort_by=rating",
-        success: function (res) {
-            // console.log(res);
-            // slice to get only the first eight list_movies
-            eight_movies = res.data.movies.slice(0, 1)
+// $(document).ready(function () {
+//     $.ajax({
+//         url: "https://yts.mx/api/v2/list_movies.json?sort_by=rating",
+//         success: function (res) {
+//             // console.log(res);
+//             // slice to get only the first eight list_movies
+//             eight_movies = res.data.movies.slice(0, 1)
 
 
-eight_movies.forEach(function (movie) {
-// console.log(movie.title);
-    $("main").append(
-        `<div class="movie">
-        <a href="movie_${movie.id}.html"><img src="${movie.medium_cover_image}" alt="${movie.title}"></a>
-        <h3>${movie.title}</h3>
-        <p>${movie.year}</p>
-            </div>`
-                );
-            });
-        }
-    });
-});
+// eight_movies.forEach(function (movie) {
+// // console.log(movie.title);
+//     $("main").append(
+//         `<div class="movie">
+//         <a href="movie_${movie.id}.html"><img src="${movie.medium_cover_image}" alt="${movie.title}"></a>
+//         <h3>${movie.title}</h3>
+//         <p>${movie.year}</p>
+//             </div>`
+//                 );
+//             });
+//         }
+//     });
+// });
 
 moviesPerPage = 2;
 /**
@@ -94,8 +94,45 @@ function displayMovies(moviesList) {
     })
 }
 
-function prevButton
-
 $(document).ready(function () {
     callAjax();
 });
+
+function prevButton(){
+    $('#movies').empty();
+
+    if ($(this).attr("prev") > 0 || $(this).attr("prev") < 11) {
+        page_number == parseInt($(this).attr("prev"));
+    } else {
+        if ($(this).attr("id") == "next") {
+            if (page_number < 10) {
+                page_number++;
+            }
+        } else if ($(this).attr("id") == "prev") {
+            if (page_number > 1) {
+                page_number--;
+            }
+        }
+    }
+}
+    $("button").removeClass("active");
+    $("button#" + page_number).addClass("active");
+
+    if (page_number == 1) {
+        $("button").attr("disabled", true);
+        $("button.prev").addClass("greyed");
+    } else if (page_number == 10) {
+        $("button").removeClass("greyed");
+        $("button.next").addClass("disabled", true);
+    } else {
+        $("button.prev").removeClass("greyed");
+        $("button.next").removeClass("greyed");
+    }
+
+    $("button").prop("disabled, false");
+    $("button.greyed").prop("disabled", true);
+
+$(document).ready(function () {
+    prevButton();
+});
+
