@@ -7,16 +7,95 @@ $(document).ready(function () {
             eight_movies = res.data.movies.slice(0, 1)
 
 
-            eight_movies.forEach(function (movie) {
-                // console.log(movie.title);
-                $("main").append(
-                    `<div class="movie">
-            <a href="movie_${movie.id}.html"><img src="${movie.medium_cover_image}" alt="${movie.title}"></a>
-            <h3>${movie.title}</h3>
-            <p>${movie.year}</p>
+eight_movies.forEach(function (movie) {
+// console.log(movie.title);
+    $("main").append(
+        `<div class="movie">
+        <a href="movie_${movie.id}.html"><img src="${movie.medium_cover_image}" alt="${movie.title}"></a>
+        <h3>${movie.title}</h3>
+        <p>${movie.year}</p>
             </div>`
                 );
             });
         }
     });
+});
+
+moviesPerPage = 2;
+/**
+ * This function is used to call the API
+ */
+function callAjax() {
+    console.log("hello")
+    $.ajax({
+        limit: 20,
+        url: "https://yts.mx/api/v2/list_movies.json?sort_by=rating",
+        success: function (res) {
+            handleData(res);
+        }
+    });
+}
+/**
+ * Handles the data and slices the pages. 2 movies per page.
+ * @param {*} data 
+ */
+function handleData(res) {
+    console.log(res);
+    // console.log("hello")
+    eight_movies = res.data.movies.slice(0, 19)
+
+
+    var totalPages = Math.ceil(eight_movies.length / moviesPerPage);
+
+    displayMovies(eight_movies.slice(0, moviesPerPage));
+    pagination(totalPages);
+}
+/**
+ * Creates the pages
+ * @param {} totalPages 
+ */
+function pagination(totalPages) {
+    var pagination = $('#pagination');
+    pagination.empty();
+    // Make all the buttons
+    for (var i = 1; i <= totalPages; i++) {
+        pagination.append(`<button class="page-item"><a class="page-link" href="#">${i}</a></button>`)
+    }
+    // Add the active class to the first button
+    pagination.find('button').first().addClass('active');
+
+    pagination.find('button').on('click', function () {
+        var page = $(this).text(); // get the text of the button
+        var start = (page - 1) * moviesPerPage;
+        var end = start + moviesPerPage;
+
+        displayMovies(eight_movies.slice(start, end));
+
+        pagination.find('button').removeClass('active');
+        $(this).addClass('active');
+    })
+
+}
+
+/**
+ * 
+ * @param {*} moviesList 
+ */
+function displayMovies(moviesList) {
+    $('#movies').empty();
+    moviesList.forEach(function (movie) {
+        $('#movies').append(
+            `<div class="movie">
+            <a href="movie_${movie.id}.html">
+            <img src="${movie.medium_cover_image}" alt="${movie.title}"></a>
+            <h3>${movie.title}</h3>
+            <p>${movie.year}</p>
+            </div>`)
+    })
+}
+
+function prevButton
+
+$(document).ready(function () {
+    callAjax();
 });
