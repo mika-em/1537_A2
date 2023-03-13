@@ -114,7 +114,6 @@ function prevButton(){
             }
         }
     }
-}
     $("button").removeClass("active");
     $("button#" + page_number).addClass("active");
 
@@ -131,6 +130,8 @@ function prevButton(){
 
     $("button").prop("disabled, false");
     $("button.greyed").prop("disabled", true);
+
+});
 
 $(document).ready(function () {
     prevButton();

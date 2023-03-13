@@ -2,14 +2,19 @@
 {
     width: 100%;
     text-align: center;
+    display: inline-block;
 }
 
 #movies {
-    background-color: antiquewhite;
     text-size-adjust: 100%;
+    font-family: 'Robusta', sans-serif;
 }
 
 body {
     background-color: palegoldenrod;
 
+}
+
+#prev greyed {
+    text-align: center;
 }
